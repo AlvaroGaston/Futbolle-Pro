@@ -1,71 +1,81 @@
 /* css/layout.css */
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  font-family: var(--fuente-principal);
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
 .cabecera {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: var(--color-primario-oscuro);
-    color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--color-primario-oscuro);
+  color: var(--color-texto-inverso);
+  box-shadow: var(--sombra-suave);
+  z-index: 100;
 }
 
 .cabecera .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-transform: uppercase;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -1px;
 }
 
 .cabecera .menu {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
 }
 
 .cabecera .menu a {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color var(--transicion-rapida);
+  color: var(--color-texto-inverso);
+  text-decoration: none;
+  font-weight: 700;
+  transition: color var(--transicion-rapida);
+  padding: 0.5rem 0;
 }
 
 .cabecera .menu a:hover,
 .cabecera .menu a.activo {
-    color: var(--color-flecha);
+  color: var(--color-parcial);
 }
 
 .contenedorPrincipal {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
 }
 
 .piePagina {
-    text-align: center;
-    padding: 1.5rem;
-    background-color: var(--color-primario-oscuro);
-    color: #ffffff;
-    font-size: 0.875rem;
+  text-align: center;
+  padding: 1.5rem;
+  background-color: var(--color-superficie);
+  color: var(--color-texto-suave);
+  font-size: 0.875rem;
+  border-top: 1px solid var(--color-borde);
 }
 
 /* Media Queries siempre al final */
 @media (max-width: 768px) {
-    .cabecera {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .cabecera .menu {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+  .cabecera {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cabecera .menu {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }

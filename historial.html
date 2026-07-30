@@ -1,73 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Historial - Futbolle Pro</title>
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/componentes.css">
-    <link rel="stylesheet" href="css/historial.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/componentes.css" />
+    <link rel="stylesheet" href="css/historial.css" />
+  </head>
+  <body>
     <header class="cabecera">
-        <div class="logo">Futbolle Pro</div>
-        <nav class="menu">
-            <a href="index.html">Jugar</a>
-            <a href="historial.html" class="activo">Historial</a>
-            <a href="contacto.html">Contacto</a>
-            <a href="https://github.com/tu-usuario/futbolle" target="_blank" rel="noopener">GitHub</a>
-            <button id="botonTema" class="botonTema" title="Cambiar tema">Tema Oscuro</button>
-        </nav>
+      <div class="logo">Futbolle Pro</div>
+      <nav class="menu">
+        <a href="index.html">Jugar</a>
+        <a href="historial.html" class="activo">Historial</a>
+        <a href="contacto.html">Contacto</a>
+        <a
+          href="https://github.com/AlvaroGaston/Futbolle-Pro.git"
+          target="_blank"
+          rel="noopener"
+          >GitHub</a
+        >
+        <button id="botonTema" class="botonTema" title="Cambiar tema">
+          Tema Oscuro
+        </button>
+      </nav>
     </header>
 
     <main class="contenedorPrincipal">
-        <section class="panelHistorial">
-            <h1>Historial de Partidas</h1>
-            <p>Revisá tus estadísticas y mejores puntajes.</p>
-            
-            <div id="controlesHistorial" class="controlesFiltro oculto">
-                <label for="selectOrdenHistorial">Ordenar por:</label>
-                <select id="selectOrdenHistorial">
-                    <option value="fechaDesc">Más recientes primero</option>
-                    <option value="fechaAsc">Más antiguos primero</option>
-                    <option value="intentosAsc">Menos intentos</option>
-                    <option value="puntajeDesc">Mayor puntaje</option>
-                </select>
-            </div>
+      <section class="panelHistorial">
+        <h1>Historial de Partidas</h1>
+        <p>Revisá tus estadísticas y mejores puntajes.</p>
 
-            <div id="contenedorTablaHistorial" class="contenedorTabla oculto">
-                <table class="tablaEstadisticas">
-                    <thead>
-                        <tr>
-                            <th>Jugador</th>
-                            <th>Incógnita</th>
-                            <th>Resultado</th>
-                            <th>Dificultad</th>
-                            <th>Intentos</th>
-                            <th>Tiempo</th>
-                            <th>Puntaje</th>
-                            <th>Fecha</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cuerpoTablaHistorial">
-                        <!-- Las filas se inyectan acá con JS -->
-                    </tbody>
-                </table>
-            </div>
+        <div id="controlesHistorial" class="controlesFiltro oculto">
+          <label for="selectOrdenHistorial">Ordenar por:</label>
+          <select id="selectOrdenHistorial">
+            <option value="fechaDesc">Más recientes primero</option>
+            <option value="fechaAsc">Más antiguos primero</option>
+            <option value="intentosAsc">Menos intentos</option>
+            <option value="puntajeDesc">Mayor puntaje</option>
+          </select>
+        </div>
 
-            <!-- Mensaje si no hay historial -->
-            <div id="mensajeSinHistorial" class="mensajeVacio">
-                <h2>Todavía no jugaste ninguna partida</h2>
-                <p>¡Andá a la pestaña "Jugar" para empezar a sumar puntos!</p>
-                <a href="index.html" class="botonPrimario">Jugar ahora</a>
-            </div>
-        </section>
+        <div id="contenedorTablaHistorial" class="contenedorTabla oculto">
+          <table class="tablaEstadisticas">
+            <thead>
+              <tr>
+                <th>Jugador</th>
+                <th>Incógnita</th>
+                <th>Resultado</th>
+                <th>Dificultad</th>
+                <th>Intentos</th>
+                <th>Tiempo</th>
+                <th>Puntaje</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="cuerpoTablaHistorial">
+              <!-- Las filas se inyectan acá con JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mensaje si no hay historial -->
+        <div id="mensajeSinHistorial" class="mensajeVacio">
+          <h2>Todavía no jugaste ninguna partida</h2>
+          <p>¡Andá a la pestaña "Jugar" para empezar a sumar puntos!</p>
+          <a href="index.html" class="botonPrimario">Jugar ahora</a>
+        </div>
+      </section>
     </main>
 
     <footer class="piePagina">
-        <p>Proyecto Final DAW 2026 - UAI</p>
+      <p>Proyecto Final DAW 2026 - UAI</p>
     </footer>
 
     <!-- Scripts -->
@@ -77,6 +86,6 @@
     <script src="js/historial.js"></script>
     <script src="js/ui.js"></script>
     <!-- Script específico para renderizar la tabla y ordenar -->
-    <script src="js/eventos.js"></script> 
-</body>
+    <script src="js/eventos.js"></script>
+  </body>
 </html>
