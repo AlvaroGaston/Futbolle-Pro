@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futbolle - Proyecto Final</title>
+    <!-- CSS Modular -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/componentes.css">
+    <link rel="stylesheet" href="css/juego.css">
+</head>
+<body>
+    <header class="cabecera">
+        <div class="logo">Futbolle Pro</div>
+        <nav class="menu">
+            <a href="index.html" class="activo">Jugar</a>
+            <a href="historial.html">Historial</a>
+            <a href="contacto.html">Contacto</a>
+            <!-- Link externo a GitHub como pide la consigna -->
+            <a href="https://github.com/tu-usuario/futbolle" target="_blank" rel="noopener">GitHub</a>
+            <button id="botonTema" class="botonTema" title="Cambiar tema">Tema Oscuro</button>
+        </nav>
+    </header>
+
+    <main class="contenedorPrincipal">
+        <!-- PANTALLA DE INICIO: Nombre y Dificultad -->
+        <section id="panelInicio" class="panelConfiguracion">
+            <h1>Nueva Partida</h1>
+            <p>Ingresá tu nombre y elegí la dificultad para comenzar.</p>
+            
+            <div class="grupoCampo">
+                <label for="inputNombreJugador">Tu nombre (min. 3 letras)</label>
+                <input type="text" id="inputNombreJugador" placeholder="Ej: Lionel" maxlength="20" autocomplete="off">
+                <span id="errorNombreJugador" class="mensajeError oculto">El nombre debe tener al menos 3 letras.</span>
+            </div>
+
+            <div class="grupoCampo">
+                <label for="selectDificultad">Dificultad</label>
+                <select id="selectDificultad">
+                    <option value="facil">Fácil (Foto con blur - 60 pts)</option>
+                    <option value="medio">Medio (Pistas reveladas - 80 pts)</option>
+                    <option value="dificil">Difícil (Sin ayudas - 100 pts)</option>
+                </select>
+            </div>
+
+            <button id="botonComenzar" class="botonPrimario">Comenzar Juego</button>
+        </section>
+
+        <!-- PANTALLA DEL JUEGO -->
+        <section id="panelJuego" class="panelJuego oculto">
+            <!-- Barra de estado: Tiempo, Intentos, Puntos y Reiniciar -->
+            <div class="barraEstado">
+                <div class="indicador">
+                    <span class="etiqueta">Intentos</span>
+                    <span class="valor" id="contadorIntentos">8/8</span>
+                </div>
+                <div class="indicador">
+                    <span class="etiqueta">Tiempo</span>
+                    <span class="valor" id="contadorTiempo">00:00</span>
+                </div>
+                <div class="indicador">
+                    <span class="etiqueta">Dificultad</span>
+                    <span class="valor" id="indicadorDificultad">Fácil</span>
+                </div>
+                <button id="botonReiniciar" class="botonSecundario">Reiniciar</button>
+            </div>
+
+            <!-- Zona de Pistas Extras (Depende de la dificultad) -->
+            <div class="zonaPistasExtra">
+                <!-- Modo Fácil: Foto blureada -->
+                <div id="contenedorFotoSecreta" class="oculto">
+                    <span class="etiquetaPista">Jugador Secreto</span>
+                    <img id="imgFotoSecreta" src="" alt="Jugador secreto" class="fotoBlur" referrerpolicy="no-referrer">
+                </div>
+                <!-- Modo Medio: Pistas de atributos -->
+                <div id="contenedorPistasAtributos" class="oculto">
+                    <span class="etiquetaPista">Pistas Extra (Se revelan al fallar)</span>
+                    <ul id="listaPistasAtributos"></ul>
+                </div>
+            </div>
+
+            <!-- Buscador y Autocompletado -->
+            <div class="zonaBuscador">
+                <div class="contenedorInput">
+                    <input type="text" id="inputBusqueda" placeholder="Buscar jugador... (min. 2 letras)" autocomplete="off" disabled>
+                    <ul id="listaAutocompletado" class="listaSugerencias oculto"></ul>
+                </div>
+                <button id="botonEnviarIntento" class="botonAccion" disabled>Adivinar</button>
+            </div>
+
+            <!-- Tablero de Intentos -->
+            <div class="contenedorTablero">
+                <div class="encabezadoTablero">
+                    <div class="celdaEncabezado foto">Foto</div>
+                    <div class="celdaEncabezado">Nombre</div>
+                    <div class="celdaEncabezado">Nac.</div>
+                    <div class="celdaEncabezado">Club</div>
+                    <div class="celdaEncabezado">Pos.</div>
+                    <div class="celdaEncabezado">Edad</div>
+                    <div class="celdaEncabezado">GRL</div>
+                    <div class="celdaEncabezado">Alt.</div>
+                </div>
+                <div id="tableroIntentos" class="tablero">
+                    <!-- Las filas de intentos se inyectan acá con clases para las animaciones -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Único Reutilizable -->
+    <div id="overlayModal" class="overlayModal oculto">
+        <div id="cajaModal" class="cajaModal">
+            <button id="botonCerrarModal" class="cerrarModal">&times;</button>
+            <h2 id="tituloModal" class="tituloModal">Título</h2>
+            <div id="cuerpoModal" class="cuerpoModal">Contenido del modal</div>
+            <div id="botonesModal" class="botonesModal"></div>
+        </div>
+    </div>
+
+    <footer class="piePagina">
+        <p>Proyecto Final DAW 2026 - UAI</p>
+    </footer>
+
+    <!-- Elementos de Audio (Mejora deseada) -->
+    <audio id="audioIntento" src="assets/audio/intento.mp3" preload="auto"></audio>
+    <audio id="audioVictoria" src="assets/audio/victoria.mp3" preload="auto"></audio>
+    <audio id="audioDerrota" src="assets/audio/derrota.mp3" preload="auto"></audio>
+
+    <!-- Scripts en orden de dependencia -->
+    <script src="js/globales.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/logica.js"></script>
+    <script src="js/historial.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/eventos.js"></script>
+</body>
+</html>

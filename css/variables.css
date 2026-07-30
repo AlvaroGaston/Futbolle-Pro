@@ -1,0 +1,49 @@
+/* css/variables.css */
+:root {
+    /* Paleta Clara (Por defecto) */
+    --color-fondo: #f8f9fa;
+    --color-superficie: #ffffff;
+    --color-texto: #212529;
+    --color-texto-suave: #6c757d;
+    --color-borde: #dee2e6;
+    
+    /* Colores Principales */
+    --color-primario: #0d6efd;
+    --color-primario-oscuro: #0a58ca;
+    
+    /* Colores del Tablero (Estilo Wordle) */
+    --color-acierto: #198754; /* Verde */
+    --color-fallo: #dc3545;   /* Rojo */
+    --color-flecha: #ffc107;  /* Amarillo para flechas de mayor/menor */
+    --color-celda-vacia: #e9ecef;
+    --color-texto-celda: #ffffff;
+    
+    /* Variables de tipografía y espaciado */
+    --fuente-principal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --radio-borde: 8px;
+    --transicion-rapida: 0.2s ease;
+}
+
+/* Modo Oscuro (Se activa agregando la clase 'tema-oscuro' al body) */
+body.tema-oscuro {
+    --color-fondo: #121212;
+    --color-superficie: #1e1e1e;
+    --color-texto: #f8f9fa;
+    --color-texto-suave: #adb5bd;
+    --color-borde: #343a40;
+    
+    --color-primario: #3d8bfd;
+    --color-primario-oscuro: #6ea8fe;
+    
+    --color-acierto: #146c43;
+    --color-fallo: #b02a37;
+    --color-flecha: #ffcd39;
+    --color-celda-vacia: #2b2b2b;
+}
+
+body {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    font-family: var(--fuente-principal);
+    transition: background-color var(--transicion-rapida), color var(--transicion-rapida);
+}

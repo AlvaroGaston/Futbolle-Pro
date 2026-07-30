@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contacto - Futbolle Pro</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/componentes.css" />
+    <link rel="stylesheet" href="css/contacto.css" />
+  </head>
+  <body>
+    <header class="cabecera">
+      <div class="logo">Futbolle Pro</div>
+      <nav class="menu">
+        <a href="index.html">Jugar</a>
+        <a href="historial.html">Historial</a>
+        <a href="contacto.html" class="activo">Contacto</a>
+        <a
+          href="https://github.com/tu-usuario/futbolle"
+          target="_blank"
+          rel="noopener"
+          >GitHub</a
+        >
+        <button id="botonTema" class="botonTema" title="Cambiar tema">
+          Tema Oscuro
+        </button>
+      </nav>
+    </header>
+
+    <main class="contenedorPrincipal">
+      <section class="panelContacto">
+        <h1>Dejanos tu mensaje</h1>
+        <p>
+          Completá el formulario y se abrirá tu cliente de correo
+          predeterminado.
+        </p>
+
+        <form id="formularioContacto" class="formulario" novalidate>
+          <div class="grupoCampo">
+            <label for="inputContactoNombre">Nombre Completo</label>
+            <input
+              type="text"
+              id="inputContactoNombre"
+              placeholder="Solo letras y números"
+            />
+            <span id="errorContactoNombre" class="mensajeError oculto"></span>
+          </div>
+
+          <div class="grupoCampo">
+            <label for="inputContactoEmail">Correo Electrónico</label>
+            <input
+              type="email"
+              id="inputContactoEmail"
+              placeholder="tu@email.com"
+            />
+            <span id="errorContactoEmail" class="mensajeError oculto"></span>
+          </div>
+
+          <div class="grupoCampo">
+            <label for="inputContactoMensaje">Mensaje</label>
+            <textarea
+              id="inputContactoMensaje"
+              rows="5"
+              placeholder="Escribí más de 5 caracteres..."
+            ></textarea>
+            <span id="errorContactoMensaje" class="mensajeError oculto"></span>
+          </div>
+
+          <button type="submit" id="botonEnviarContacto" class="botonPrimario">
+            Preparar Email
+          </button>
+        </form>
+      </section>
+    </main>
+
+    <!-- Modal Reutilizable -->
+    <div id="overlayModal" class="overlayModal oculto">
+      <div id="cajaModal" class="cajaModal">
+        <button id="botonCerrarModal" class="cerrarModal">&times;</button>
+        <h2 id="tituloModal" class="tituloModal"></h2>
+        <div id="cuerpoModal" class="cuerpoModal"></div>
+        <div id="botonesModal" class="botonesModal"></div>
+      </div>
+    </div>
+
+    <footer class="piePagina">
+      <p>Proyecto Final DAW 2026 - UAI</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/globales.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/logica.js"></script>
+    <script src="js/historial.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/eventos.js"></script>
+  </body>
+</html>
