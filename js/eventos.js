@@ -364,20 +364,40 @@ function manejarEnvioContacto(evento) {
   }
 
   if (valido) {
-    // Formatear mailto y abrir cliente de correo
-    var asunto = encodeURIComponent("Contacto desde Futbolle Pro - " + nombre);
-    var cuerpo = encodeURIComponent(
-      "Nombre: " + nombre + "\nEmail: " + email + "\n\nMensaje:\n" + mensaje,
-    );
-    window.location.href =
-      "mailto:profesor@uai.edu.ar?subject=" + asunto + "&body=" + cuerpo;
+    // 1. Mostrar modal de éxito (sin botones de acción, solo informativo)
+    var accionesModal = [
+      {
+        texto: "Entendido",
+        accion: function () {
+          // 2. Construir la URL mailto y abrir el cliente de correo
+          var asunto = encodeURIComponent(
+            "Contacto desde Futbolle Pro - " + nombre,
+          );
+          var cuerpo = encodeURIComponent(
+            "Nombre: " +
+              nombre +
+              "\nEmail: " +
+              email +
+              "\n\nMensaje:\n" +
+              mensaje,
+          );
+          var mailtoUrl =
+            "mailto:profesor@uai.edu.ar?subject=" + asunto + "&body=" + cuerpo;
+
+          window.location.href = mailtoUrl;
+
+          // 3. Ocultar modal y resetear el formulario
+          ocultarModal();
+          document.getElementById("formularioContacto").reset();
+        },
+      },
+    ];
 
     mostrarModal(
-      "¡Éxito!",
-      "Se está abriendo tu cliente de correo predeterminado.",
-      [],
+      "¡Validación exitosa!",
+      "Formulario validado correctamente. Se abrirá tu cliente de correo.",
+      accionesModal,
     );
-    document.getElementById("formularioContacto").reset();
   }
 }
 
