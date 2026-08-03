@@ -262,7 +262,7 @@ function renderizarTablaHistorialUI(historial) {
     tr.innerHTML = `
             <td>${registro.jugadorHumano}</td>
             <td>${registro.secreto}</td>
-            <td>${registro.resultado === "victoria" ? "Victoria" : "Derrota"}</td>
+            <td class="resultado-${registro.resultado}">${registro.resultado === "victoria" ? "Victoria" : "Derrota"}</td>
             <td>${registro.dificultad.charAt(0).toUpperCase() + registro.dificultad.slice(1)}</td>
             <td>${registro.intentos}</td>
             <td>${duracionFormateada}</td>

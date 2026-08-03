@@ -1,0 +1,155 @@
+/* css/historial.css */
+
+.panelHistorial {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.panelHistorial h1 {
+  color: var(--color-primario-oscuro);
+  margin-bottom: 0.5rem;
+}
+
+/* Controles de Filtro */
+.controlesFiltro {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--color-superficie);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radio-borde);
+  border: 1px solid var(--color-borde);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.controlesFiltro label {
+  font-weight: bold;
+  color: var(--color-texto-suave);
+  font-size: 0.9rem;
+}
+
+.controlesFiltro select {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radio-borde);
+  border: 2px solid var(--color-borde);
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transicion-rapida);
+}
+
+.controlesFiltro select:hover {
+  border-color: var(--color-primario);
+}
+
+/* Contenedor responsivo de la tabla */
+.contenedorTabla {
+  width: 100%;
+  overflow-x: auto;
+  background-color: var(--color-superficie);
+  border-radius: var(--radio-borde);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--color-borde);
+}
+
+/* Tabla Principal */
+.tablaEstadisticas {
+  width: 100%;
+  min-width: 800px; /* Evita que se aplaste en celulares */
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.tablaEstadisticas thead {
+  background-color: var(--color-primario);
+  color: #ffffff;
+}
+
+.tablaEstadisticas th {
+  padding: 1rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: bold;
+}
+
+.tablaEstadisticas td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-borde);
+  color: var(--color-texto);
+  vertical-align: middle;
+}
+
+/* Efecto Cebra para desamontonar visualmente */
+.tablaEstadisticas tbody tr:nth-child(even) {
+  background-color: var(--color-celda-vacia);
+}
+
+/* Hover suave en las filas */
+.tablaEstadisticas tbody tr {
+  transition: background-color var(--transicion-rapida);
+}
+
+.tablaEstadisticas tbody tr:hover {
+  background-color: rgba(13, 110, 253, 0.08); /* Un azul muy transparente */
+}
+
+/* Alineaciones específicas */
+.tablaEstadisticas td:nth-child(5), /* Intentos */
+.tablaEstadisticas th:nth-child(5),
+.tablaEstadisticas td:nth-child(6), /* Tiempo */
+.tablaEstadisticas th:nth-child(6),
+.tablaEstadisticas td:nth-child(7), /* Puntaje */
+.tablaEstadisticas th:nth-child(7) {
+  text-align: center;
+}
+
+/* Insignias (Badges) para los resultados */
+.tablaEstadisticas .estado-acierto,
+.tablaEstadisticas .estado-fallo {
+  display: inline-block;
+  padding: 0.35rem 0.75rem !important;
+  border-radius: 20px !important;
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #ffffff !important;
+  text-align: center;
+  min-width: 80px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tablaEstadisticas .estado-acierto {
+  background-color: var(--color-acierto) !important;
+}
+
+.tablaEstadisticas .estado-fallo {
+  background-color: var(--color-fallo) !important;
+}
+
+/* Mensaje Vacio */
+.mensajeVacio {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--color-superficie);
+  border-radius: var(--radio-borde);
+  border: 2px dashed var(--color-borde);
+  width: 100%;
+}
+
+.mensajeVacio h2 {
+  color: var(--color-texto-suave);
+  margin-bottom: 1rem;
+}
+
+.mensajeVacio p {
+  color: var(--color-texto);
+  margin-bottom: 2rem;
+}
