@@ -1,0 +1,11 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos temporales de editores
+.vscode/
+*.swp
+*.swo
+
+# Node modules (por si a futuro usas Node)
+node_modules/

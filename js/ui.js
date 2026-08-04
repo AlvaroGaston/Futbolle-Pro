@@ -57,25 +57,43 @@ function renderizarSugerenciasUI(jugadores, seleccionarCallback) {
   for (var i = 0; i < jugadores.length; i++) {
     var jugador = jugadores[i];
     var li = document.createElement("li");
-    li.innerHTML =
-      '<img src="' +
-      jugador.photo +
-      '" alt="' +
-      jugador.name +
-      '" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'https://placehold.co/30x30/cccccc/333333?text=?\';"> ' +
-      jugador.name;
-    li.dataset.jugador = JSON.stringify(jugador); // Guardar el objeto completo
+
+    // Crear elementos de forma segura para asignar eventos
+    var img = document.createElement("img");
+    img.src = jugador.photo;
+    img.alt = jugador.name;
+    img.setAttribute("referrerpolicy", "no-referrer");
+    img.onerror = function () {
+      this.onerror = null;
+      this.src = "https://placehold.co/30x30/cccccc/333333?text=?";
+    };
+
+    var nombreSpan = document.createElement("span");
+    nombreSpan.textContent = " " + jugador.name;
+
+    li.appendChild(img);
+    li.appendChild(nombreSpan);
+
     li.addEventListener(
       "click",
-      (function (selectedPlayer) {
-        return function () {
-          seleccionarCallback(selectedPlayer);
-        };
-      })(jugador),
+      crearHandlerSeleccion(jugador, seleccionarCallback),
     );
     lista.appendChild(li);
   }
   lista.classList.remove("oculto");
+}
+
+/**
+ * Crea y devuelve una función de callback para el evento click,
+ * capturando el jugador correcto en el closure.
+ * @param {Object} jugador
+ * @param {Function} callback
+ * @returns {Function}
+ */
+function crearHandlerSeleccion(jugador, callback) {
+  return function () {
+    callback(jugador);
+  };
 }
 
 /**
@@ -117,12 +135,15 @@ function renderizarIntentoUI(jugadorIntento, resultadoComparacion) {
   // Foto
   var celdaFoto = document.createElement("div");
   celdaFoto.classList.add("celdaAtributo", "foto");
-  celdaFoto.innerHTML =
-    '<img src="' +
-    jugadorIntento.photo +
-    '" alt="' +
-    jugadorIntento.name +
-    '" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'https://placehold.co/45x45/cccccc/333333?text=?\';">';
+  var img = document.createElement("img");
+  img.src = jugadorIntento.photo;
+  img.alt = jugadorIntento.name;
+  img.setAttribute("referrerpolicy", "no-referrer");
+  img.onerror = function () {
+    this.onerror = null;
+    this.src = "https://placehold.co/45x45/cccccc/333333?text=?";
+  };
+  celdaFoto.appendChild(img);
   fila.appendChild(celdaFoto);
 
   // Nombre
