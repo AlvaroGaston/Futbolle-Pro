@@ -55,32 +55,6 @@ function inicializarApp() {
   }
 }
 
-// --- Funciones de Callback para Event Listeners ---
-
-/** Callback para el .then() de obtenerJugadorSecreto */
-function onJugadorSecretoObtenido(jugador) {
-  estadoApp.jugadorSecreto = jugador;
-
-  if (estadoApp.dificultad === "facil") {
-    var imgFotoSecreta = document.getElementById("imgFotoSecreta");
-    imgFotoSecreta.src = jugador.photo;
-    // Fallback por si la imagen no carga
-    imgFotoSecreta.onerror = function () {
-      this.src = "https://placehold.co/120x120/cccccc/333333?text=Error";
-    };
-    actualizarBlurFotoUI(0);
-  }
-
-  // Habilitar buscador e iniciar reloj
-  document.getElementById("inputBusqueda").disabled = false;
-  iniciarTemporizador();
-}
-
-/** Callback para el .catch() de obtenerJugadorSecreto */
-function onJugadorSecretoError() {
-  mostrarModal("Error de Conexión", "No se pudo obtener el jugador secreto. Por favor, recargá la página.", []);
-}
-
 /**
  * Alterna entre modo claro y oscuro, y guarda la preferencia.
  */
@@ -130,7 +104,33 @@ function iniciarPartida() {
 
   // Obtener jugador secreto desde el endpoint
   obtenerJugadorSecreto()
-    .then(onJugadorSecretoObtenido).catch(onJugadorSecretoError);
+    .then(function (jugador) {
+      estadoApp.jugadorSecreto = jugador;
+      
+      // DEBUG: Mostrar el jugador secreto en la consola para facilitar el testing.
+      //console.log("🤫 JUGADOR SECRETO (Testing):", jugador);
+
+      if (estadoApp.dificultad === "facil") {
+        var imgFotoSecreta = document.getElementById("imgFotoSecreta");
+        imgFotoSecreta.src = jugador.photo;
+        // Fallback por si la imagen no carga
+        imgFotoSecreta.onerror = function () {
+          this.src = "https://placehold.co/120x120/cccccc/333333?text=Error";
+        };
+        actualizarBlurFotoUI(0);
+      }
+
+      // Habilitar buscador e iniciar reloj
+      document.getElementById("inputBusqueda").disabled = false;
+      iniciarTemporizador();
+    })
+    .catch(function (error) {
+      mostrarModal(
+        "Error de Conexión",
+        "No se pudo obtener el jugador secreto. Por favor, recargá la página.",
+        [],
+      );
+    });
 }
 
 /**
@@ -140,17 +140,13 @@ function iniciarTemporizador() {
   estadoApp.tiempoInicio = Date.now();
   actualizarUI_Temporizador(0);
 
-  estadoApp.intervaloTemporizador = setInterval(actualizarReloj, 1000);
+  estadoApp.intervaloTemporizador = setInterval(function () {
+    estadoApp.segundosTranscurridos = Math.floor(
+      (Date.now() - estadoApp.tiempoInicio) / 1000,
+    );
+    actualizarUI_Temporizador(estadoApp.segundosTranscurridos);
+  }, 1000);
 }
-
-/**
- * Callback para setInterval que actualiza el reloj del juego.
- */
-function actualizarReloj() {
-  estadoApp.segundosTranscurridos = Math.floor((Date.now() - estadoApp.tiempoInicio) / 1000);
-  actualizarUI_Temporizador(estadoApp.segundosTranscurridos);
-}
-
 
 /**
  * Maneja el input del buscador con técnica de "Debounce"
@@ -174,19 +170,16 @@ function manejarBusqueda(evento) {
     return;
   }
 
-  timeoutBusqueda = setTimeout(function () { ejecutarBusqueda(consulta); }, 300);
-}
-
-/** Ejecuta la búsqueda de jugadores y renderiza los resultados. */
-function ejecutarBusqueda(consulta) {
-  buscarJugadores(consulta)
-    .then(onBusquedaExitosa)
-    .catch(onBusquedaFallida);
-}
-
-/** Callback para el .then() de buscarJugadores. */
-function onBusquedaExitosa(jugadores) {
-  renderizarSugerenciasUI(jugadores, seleccionarJugadorBusqueda);
+  timeoutBusqueda = setTimeout(function () {
+    buscarJugadores(consulta)
+      .then(function (jugadores) {
+        renderizarSugerenciasUI(jugadores, seleccionarJugadorBusqueda);
+      })
+      .catch(function () {
+        // Falla silenciosa para la búsqueda
+        document.getElementById("listaAutocompletado").classList.add("oculto");
+      });
+  }, 300);
 }
 
 /**
@@ -197,11 +190,6 @@ function seleccionarJugadorBusqueda(jugador) {
   document.getElementById("inputBusqueda").value = jugador.name;
   document.getElementById("listaAutocompletado").classList.add("oculto");
   document.getElementById("botonEnviarIntento").disabled = false;
-}
-
-/** Callback para el .catch() de buscarJugadores (falla silenciosa). */
-function onBusquedaFallida() {
-  document.getElementById("listaAutocompletado").classList.add("oculto");
 }
 
 /**
@@ -290,10 +278,10 @@ function finalizarPartida(gano) {
 
   // Armar mensaje visual
   var tarjetaHTML =
-    '<div class="tarjeta-jugador-modal">' +
-    '<img id="imgModalJugadorSecreto" src="' +
+    '<div style="text-align:center; margin-top:15px;">' +
+    '<img src="' +
     estadoApp.jugadorSecreto.photo +
-    '" class="img-jugador-modal" referrerpolicy="no-referrer" alt="Foto de ' + estadoApp.jugadorSecreto.name + '">' +
+    '" style="border-radius:50%; width:100px; border:3px solid var(--color-primario); margin:0 auto;" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'https://placehold.co/100x100/cccccc/333333?text=?\';">' +
     "<h3>" +
     estadoApp.jugadorSecreto.name +
     "</h3>" +
@@ -316,12 +304,6 @@ function finalizarPartida(gano) {
         tarjetaHTML,
       [{ texto: "Jugar de nuevo", accion: reiniciarJuego }],
     );
-    // Asignar onerror después de mostrar el modal
-    document.getElementById("imgModalJugadorSecreto").onerror = function() {
-        this.onerror = null;
-        this.src = 'https://placehold.co/100x100/cccccc/333333?text=?';
-    };
-    );
   } else {
     reproducirSonido("derrota");
     mostrarModal(
@@ -329,48 +311,11 @@ function finalizarPartida(gano) {
       "Te quedaste sin intentos. El jugador era:" + tarjetaHTML,
       [{ texto: "Reintentar", accion: reiniciarJuego }],
     );
-    // Asignar onerror después de mostrar el modal
-    document.getElementById("imgModalJugadorSecreto").onerror = function() {
-        this.onerror = null;
-        this.src = 'https://placehold.co/100x100/cccccc/333333?text=?';
-    };
   }
 }
 
-/**
- * Reinicia el estado del juego y la UI para una nueva partida sin recargar la página.
- */
 function reiniciarJuego() {
-  // 1. Ocultar modal si está abierto
-  ocultarModal();
-
-  // 2. Resetear estado de la aplicación
-  estadoApp.nombreJugador = '';
-  estadoApp.jugadorSecreto = null;
-  estadoApp.intentosRealizados = [];
-  estadoApp.intentosRestantes = CONFIG.MAX_INTENTOS;
-  estadoApp.partidaActiva = false;
-  estadoApp.segundosTranscurridos = 0;
-  if (estadoApp.intervaloTemporizador) {
-    clearInterval(estadoApp.intervaloTemporizador);
-    estadoApp.intervaloTemporizador = null;
-  }
-
-  // 3. Resetear UI a la pantalla de inicio
-  document.getElementById("panelJuego").classList.add("oculto");
-  document.getElementById("panelInicio").classList.remove("oculto");
-
-  // 4. Limpiar elementos de la partida anterior
-  document.getElementById("inputNombreJugador").value = "";
-  document.getElementById("tableroIntentos").innerHTML = "";
-  document.getElementById("listaPistasAtributos").innerHTML = "";
-  document.getElementById("contenedorFotoSecreta").classList.add("oculto");
-  document.getElementById("contenedorPistasAtributos").classList.add("oculto");
-  document.getElementById("inputBusqueda").value = "";
-  document.getElementById("inputBusqueda").disabled = true;
-  document.getElementById("botonEnviarIntento").disabled = true;
-  actualizarUI_Intentos(CONFIG.MAX_INTENTOS);
-  actualizarUI_Temporizador(0);
+  window.location.reload();
 }
 
 /**
@@ -420,7 +365,34 @@ function manejarEnvioContacto(evento) {
   }
 
   if (valido) {
-    var accionesModal = [{ texto: "Entendido", accion: function() { enviarCorreoContacto(nombre, email, mensaje); } }];
+    // 1. Mostrar modal de éxito (sin botones de acción, solo informativo)
+    var accionesModal = [
+      {
+        texto: "Entendido",
+        accion: function () {
+          // 2. Construir la URL mailto y abrir el cliente de correo
+          var asunto = encodeURIComponent(
+            "Contacto desde Futbolle Pro - " + nombre,
+          );
+          var cuerpo = encodeURIComponent(
+            "Nombre: " +
+              nombre +
+              "\nEmail: " +
+              email +
+              "\n\nMensaje:\n" +
+              mensaje,
+          );
+          var mailtoUrl =
+            "mailto:profesor@uai.edu.ar?subject=" + asunto + "&body=" + cuerpo;
+
+          window.location.href = mailtoUrl;
+
+          // 3. Ocultar modal y resetear el formulario
+          ocultarModal();
+          document.getElementById("formularioContacto").reset();
+        },
+      },
+    ];
 
     mostrarModal(
       "¡Validación exitosa!",
@@ -428,23 +400,6 @@ function manejarEnvioContacto(evento) {
       accionesModal,
     );
   }
-}
-
-/**
- * Construye y abre el cliente de correo, y luego limpia el formulario.
- * @param {string} nombre 
- * @param {string} email 
- * @param {string} mensaje 
- */
-function enviarCorreoContacto(nombre, email, mensaje) {
-  var asunto = encodeURIComponent("Contacto desde Futbolle Pro - " + nombre);
-  var cuerpo = encodeURIComponent("Nombre: " + nombre + "\nEmail: " + email + "\n\nMensaje:\n" + mensaje);
-  var mailtoUrl = "mailto:profesor@uai.edu.ar?subject=" + asunto + "&body=" + cuerpo;
-
-  window.location.href = mailtoUrl;
-
-  ocultarModal();
-  document.getElementById("formularioContacto").reset();
 }
 
 /**
